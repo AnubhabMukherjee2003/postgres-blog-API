@@ -100,9 +100,30 @@ const deletePost = async (req, res) => {
     res.status(500).json({ error: "Failed to delete post" });
   }
 };
-
+const getAllPostsAdmin = async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        author: {
+          select: {
+            uid: true,
+            username: true,
+          },
+        },
+      },
+      orderBy: {
+        pid: "desc",
+      },
+    });
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
+};
 module.exports = {
   createPost,
   updatePost,
   deletePost,
+  getAllPostsAdmin
 };
