@@ -103,6 +103,7 @@ const deletePost = async (req, res) => {
 const getAllPostsAdmin = async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
+      where: {},
       include: {
         author: {
           select: {

@@ -11,9 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/posts", getAllPosts); // only published posts
+app.get("/api/posts/all", getAllPostsAdmin); // all posts for admin
+
 app.get("/api/posts/:id", getPostById);
 
-app.get("/api/posts/all", getAllPostsAdmin); // all posts for admin
 app.post("/api/posts", createPost);
 app.put("/api/posts/:id", updatePost);
 app.delete("/api/posts/:id", deletePost);
