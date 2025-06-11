@@ -10,14 +10,13 @@ datasource db {
 
 model User {
   uid      Int    @id @default(autoincrement())
-  username String @unique
   email    String @unique
   password String
   posts    Post[]
 }
 
 model Post {
-  pid       Int    @id @default(autoincrement())
+  pid       String @id @default(uuid())
   desc      String
   title     String
   date      DateTime @default(now())

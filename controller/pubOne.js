@@ -9,12 +9,12 @@ const getAllPosts = async (req, res) => {
         author: {
           select: {
             uid: true,
-            username: true,
+            email: true,
           },
         },
       },
       orderBy: {
-        pid: "desc",
+        date: "desc",
       },
     });
     res.json(posts);
@@ -27,19 +27,18 @@ const getAllPosts = async (req, res) => {
 const getPostById = async (req, res) => {
   try {
     const { id } = req.params;
-    const postId = parseInt(id);
     
-    if (isNaN(postId)) {
+    // UUID validation - basic check for UUID format
+    if (!id || typeof id !== 'string' || id.length < 10) {
       return res.status(400).json({ error: "Invalid post ID" });
     }
     
     const post = await prisma.post.findUnique({
-      where: { pid: postId },
+      where: { pid: id },
       include: {
         author: {
           select: {
             uid: true,
-            username: true,
             email: true,
           },
         },

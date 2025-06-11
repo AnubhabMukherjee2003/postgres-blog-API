@@ -28,7 +28,6 @@ const createPost = async (req, res) => {
         author: {
           select: {
             uid: true,
-            username: true,
             email: true,
           },
         },
@@ -48,7 +47,7 @@ const updatePost = async (req, res) => {
     const { title, desc, isPublish } = req.body;
 
     const existingPost = await prisma.post.findUnique({
-      where: { pid: parseInt(id) },
+      where: { pid: id },
     });
 
     if (!existingPost) {
@@ -56,7 +55,7 @@ const updatePost = async (req, res) => {
     }
 
     const updatedPost = await prisma.post.update({
-      where: { pid: parseInt(id) },
+      where: { pid:id },
       data: {
         ...(title && { title }),
         ...(desc && { desc }),
@@ -66,7 +65,6 @@ const updatePost = async (req, res) => {
         author: {
           select: {
             uid: true,
-            username: true,
             email: true,
           },
         },
@@ -84,14 +82,14 @@ const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     const existingPost = await prisma.post.findUnique({
-      where: { pid: parseInt(id) },
+      where: { pid: id },
     });
     if (!existingPost) {
       return res.status(404).json({ error: "Post not found" });
     }
 
     await prisma.post.delete({
-      where: { pid: parseInt(id) },
+      where: { pid: id },
     });
 
     res.json({ message: "Post deleted successfully" });
@@ -108,12 +106,12 @@ const getAllPostsAdmin = async (req, res) => {
         author: {
           select: {
             uid: true,
-            username: true,
+            email: true,
           },
         },
       },
       orderBy: {
-        pid: "desc",
+        date: "desc",
       },
     });
     res.json(posts);
