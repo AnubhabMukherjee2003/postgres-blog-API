@@ -27,8 +27,14 @@ const getAllPosts = async (req, res) => {
 const getPostById = async (req, res) => {
   try {
     const { id } = req.params;
+    const postId = parseInt(id);
+    
+    if (isNaN(postId)) {
+      return res.status(400).json({ error: "Invalid post ID" });
+    }
+    
     const post = await prisma.post.findUnique({
-      where: { pid: parseInt(id)},
+      where: { pid: postId },
       include: {
         author: {
           select: {

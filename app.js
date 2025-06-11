@@ -15,7 +15,7 @@ app.get("/api/posts/all", getAllPostsAdmin); // all posts for admin
 
 app.get("/api/posts/:id", getPostById);
 
-app.post("/api/posts", createPost);
+app.post("/api/posts", createPost)
 app.put("/api/posts/:id", updatePost);
 app.delete("/api/posts/:id", deletePost);
 
